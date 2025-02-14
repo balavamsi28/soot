@@ -9,7 +9,6 @@ import soot.SootClass;
 import soot.Type;
 
 /**
- * @author Tobias Hamann, Florian Kuebler, Dominik Helm, Lukas Sommer
  * ASM class writer with soot-specific resolution of common superclasses.
  */
 public class SootASMClassWriter extends ClassWriter {
@@ -28,15 +27,18 @@ public class SootASMClassWriter extends ClassWriter {
    */
   @Override
   protected String getCommonSuperClass(String type1, String type2) {
-    String typeName1 = type1.replace('/', '.');
-    String typeName2 = type2.replace('/', '.');
+    
+    String typeName1=type1.replace('/','.');
+    String typeName2=type2.replace('/','.');
 
     Scene scene = Scene.v(); // Store reference to Scene singleton
     SootClass s1, s2;
 
     try {
-      s1 = scene.getSootClass(typeName1);
-      s2 = scene.getSootClass(typeName2);
+
+      s1=scene.getSootClass(typeName1);
+      s2=scene.getSootClass(typeName2);
+      
     } catch (RuntimeException e) {
       // If class resolution fails, fall back to java.lang.Object
       return slashify(scene.getObjectType().toString());
@@ -57,3 +59,4 @@ public class SootASMClassWriter extends ClassWriter {
     throw new RuntimeException("Could not find common superclass for " + typeName1 + " and " + typeName2);
   }
 }
+
